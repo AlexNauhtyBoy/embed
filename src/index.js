@@ -151,13 +151,13 @@ export default class Embed {
     const preloader = this.createPreloader();
 
     container.classList.add(this.CSS.baseClass, this.CSS.container, this.CSS.containerLoading);
-    // caption.classList.add(this.CSS.input, this.CSS.caption);
+    caption.classList.add(this.CSS.input, this.CSS.caption);
 
     container.appendChild(preloader);
 
-    // caption.contentEditable = true;
-    // caption.dataset.placeholder = 'Enter a caption';
-    // caption.innerHTML = this.data.caption || '';
+    caption.contentEditable = true;
+    caption.dataset.placeholder = 'Enter a caption';
+    caption.innerHTML = this.data.caption || '';
 
     template.innerHTML = html;
     template.content.firstChild.setAttribute('src', this.data.embed);
@@ -166,7 +166,7 @@ export default class Embed {
     const embedIsReady = this.embedIsReady(container);
 
     container.appendChild(template.content.firstChild);
-    container.appendChild(caption);
+    // container.appendChild(caption);
 
     embedIsReady
       .then(() => {

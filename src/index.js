@@ -74,6 +74,7 @@ export default class Embed {
       embed: embed || this.data.embed,
       width: width || this.data.width,
       height: height || this.data.height,
+      caption: caption || this.data.caption || '',
     };
 
     const oldView = this.element;
@@ -87,6 +88,11 @@ export default class Embed {
    * @return {EmbedData}
    */
   get data() {
+    if (this.element) {
+      const caption = this.element.querySelector(`.${this.api.styles.input}`);
+
+      this._data.caption = caption ? caption.innerHTML : '';
+    }
 
     return this._data;
   }
@@ -118,6 +124,7 @@ export default class Embed {
       container: 'embed-tool',
       containerLoading: 'embed-tool--loading',
       preloader: 'embed-tool__preloader',
+      caption: 'embed-tool__caption',
       url: 'embed-tool__url',
       content: 'embed-tool__content'
     };

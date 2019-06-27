@@ -55,6 +55,7 @@
 
   &__caption {
     margin-top: 7px;
+    display: none;
 
 
     &[contentEditable=true][data-placeholder]::before{

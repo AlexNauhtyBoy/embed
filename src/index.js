@@ -166,7 +166,7 @@ export default class Embed {
     const embedIsReady = this.embedIsReady(container);
 
     container.appendChild(template.content.firstChild);
-    // container.appendChild(caption);
+    container.appendChild(caption);
 
     embedIsReady
       .then(() => {

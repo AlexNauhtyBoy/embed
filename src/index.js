@@ -97,22 +97,6 @@ export default class Embed {
     return this._data;
   }
 
-    /**
-   * Get Tool toolbox settings
-   * icon - Tool icon's SVG
-   * title - title to show in toolbox
-   *
-   * @return {{icon: string, title: string}}
-   */
-  static get toolbox() {
-    return {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6ZM18 5H6C5.44772 5 5 5.44772 5 6V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V6C19 5.44772 18.5523 5 18 5ZM9.04134 7.65814L16.4752 11.8482L9.04134 16.3761V7.65814ZM10.0413 9.36968V14.5961L14.498 11.8816L10.0413 9.36968Z" fill="#212132"/>
-      </svg>`,
-      title: 'Embed'
-    };
-  }
-
   /**
    * Get plugin styles
    * @return {Object}
@@ -146,7 +130,7 @@ export default class Embed {
 
     const {html} = Embed.services[this.data.service];
     const container = document.createElement('div');
-    // const caption = document.createElement('div');
+    const caption = document.createElement('div');
     const template = document.createElement('template');
     const preloader = this.createPreloader();
 
@@ -176,6 +160,22 @@ export default class Embed {
     this.element = container;
 
     return container;
+  }
+
+      /**
+   * Get Tool toolbox settings
+   * icon - Tool icon's SVG
+   * title - title to show in toolbox
+   *
+   * @return {{icon: string, title: string}}
+   */
+  static get toolbox() {
+    return {
+      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6ZM18 5H6C5.44772 5 5 5.44772 5 6V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V6C19 5.44772 18.5523 5 18 5ZM9.04134 7.65814L16.4752 11.8482L9.04134 16.3761V7.65814ZM10.0413 9.36968V14.5961L14.498 11.8816L10.0413 9.36968Z" fill="#212132"/>
+      </svg>`,
+      title: 'Embed'
+    };
   }
 
   /**

@@ -146,7 +146,6 @@ export default class Embed {
 
     const {html} = Embed.services[this.data.service];
     const container = document.createElement('div');
-    const caption = document.createElement('div');
     const template = document.createElement('template');
     const preloader = this.createPreloader();
 

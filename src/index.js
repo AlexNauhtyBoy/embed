@@ -146,6 +146,7 @@ export default class Embed {
 
     const {html} = Embed.services[this.data.service];
     const container = document.createElement('div');
+    // const caption = document.createElement('div');
     const template = document.createElement('template');
     const preloader = this.createPreloader();
 
@@ -154,9 +155,9 @@ export default class Embed {
 
     container.appendChild(preloader);
 
-    caption.contentEditable = true;
-    caption.dataset.placeholder = 'Enter a caption';
-    caption.innerHTML = this.data.caption || '';
+    // caption.contentEditable = true;
+    // caption.dataset.placeholder = 'Enter a caption';
+    // caption.innerHTML = this.data.caption || '';
 
     template.innerHTML = html;
     template.content.firstChild.setAttribute('src', this.data.embed);

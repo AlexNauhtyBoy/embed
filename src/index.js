@@ -45,11 +45,26 @@ export default class Embed {
    *   api - Editor.js API
    */
   constructor({data, api}) {
+
+    console.log(data, 'ссылка тут');
     this.api = api;
     this._data = {};
     this.element = null;
 
     this.data = data;
+
+    this.nodes = {
+      wrapper: null,
+      container: null,
+      progress: null,
+      input: null,
+      inputHolder: null,
+      linkContent: null,
+      linkImage: null,
+      linkTitle: null,
+      linkDescription: null,
+      linkText: null
+    };
   }
 
   /**
@@ -65,6 +80,8 @@ export default class Embed {
     if (!(data instanceof Object)) {
       throw Error('Embed Tool data should be object');
     }
+
+    console.log(data);
 
     const {service, source, embed, width, height, caption = ''} = data;
 
@@ -104,6 +121,12 @@ export default class Embed {
   get CSS() {
     return {
       baseClass: this.api.styles.block,
+      inputEl: 'link-tool__input',
+      inputHolder: 'embed-tool__input-holder',
+      inputError: 'embed-tool__input-holder--error',
+      progress: 'embed-tool__progress',
+      progressLoading: 'embed-tool__progress--loading',
+      progressLoaded: 'embed-tool__progress--loaded',
       input: this.api.styles.input,
       container: 'embed-tool',
       containerLoading: 'embed-tool--loading',
@@ -120,13 +143,23 @@ export default class Embed {
    * @return {HTMLElement}
    */
   render() {
+
+    console.log('hello her');
     if (!this.data.service) {
       const container = document.createElement('div');
+
+      this.nodes.inputHolder = this.makeInputHolder();
+
+
+      container.appendChild(this.nodes.inputHolder);
 
       this.element = container;
 
       return container;
     }
+
+    console.log('hello her 2');
+
 
     const {html} = Embed.services[this.data.service];
     const container = document.createElement('div');
@@ -212,6 +245,10 @@ export default class Embed {
    * @return {Service}
    */
   onPaste(event) {
+    this.performServices(event);
+  }
+
+  performServices(event) {
     const {key: service, data: url} = event.detail;
 
     const {regex, embedUrl, width, height, id = (ids) => ids.shift()} = Embed.services[service];
@@ -234,7 +271,7 @@ export default class Embed {
    */
   static prepare({config = {}}) {
     let {services = {}} = config;
-
+    console.log(config);
     let entries = Object.entries(SERVICES);
 
     const enabledServices = Object
@@ -333,4 +370,90 @@ export default class Embed {
       observer.disconnect();
     });
   }
+
+  startLoading(data) {
+    this.performServices(data);
+  }
+
+  matchService(url) {
+    if (url.match('youtube')) {
+      return this.composePasteEventMock('youtube', url);
+    }
+    if (url.match('codepen')) {
+      return this.composePasteEventMock('codepen', url);
+    }
+    if (url.match('vimeo')) {
+      return this.composePasteEventMock('vimeo', url);
+    }
+    return null;
+  }
+
+  makeInputHolder() {
+    const inputHolder = this.make('div', this.CSS.inputHolder);
+
+    this.nodes.progress = this.make('label', this.CSS.progress);
+    this.nodes.input = this.make('div', [this.CSS.input, this.CSS.inputEl], {
+      contentEditable: true
+    });
+
+    this.nodes.input.dataset.placeholder = 'Link';
+
+    this.nodes.input.addEventListener('paste', (event) => {
+      let url;
+      if (event.type === 'paste') {
+        console.log(event.clipboardData);
+        url = (event.clipboardData || window.clipboardData).getData('text');
+      }
+
+      this.startLoading(this.matchService(url));
+    });
+
+    this.nodes.input.addEventListener('keydown', (event) => {
+      console.log('привеж муравьед');
+      const [ENTER, A] = [13, 65];
+      const cmdPressed = event.ctrlKey || event.metaKey;
+  console.log(event.keyCode);
+      switch (event.keyCode) {
+        case ENTER:
+          console.log('привет муравьед');
+          event.preventDefault();
+          event.stopPropagation();
+
+          this.startLoading(this.matchService(this.nodes.input.textContent));
+          break;
+        case A:
+          break;
+      }
+    });
+
+    inputHolder.appendChild(this.nodes.progress);
+    inputHolder.appendChild(this.nodes.input);
+
+    return inputHolder;
+  }
+
+  make(tagName, classNames = null, attributes = {}) {
+    const el = document.createElement(tagName);
+
+    if (Array.isArray(classNames)) {
+      el.classList.add(...classNames);
+    } else if (classNames) {
+      el.classList.add(classNames);
+    }
+
+    for (const attrName in attributes) {
+      el[attrName] = attributes[attrName];
+    }
+
+    return el;
+  }
+
+  composePasteEventMock(service, url) {
+    return {
+      detail: {
+        key: service,
+        data: url
+      }
+    }
+  };
 }

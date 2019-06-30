@@ -58,6 +58,7 @@ export default class Embed {
       container: null,
       progress: null,
       input: null,
+        img: null,
       inputHolder: null,
       linkContent: null,
       linkImage: null,
@@ -147,8 +148,12 @@ export default class Embed {
     console.log('hello her');
     if (!this.data.service) {
       const container = document.createElement('div');
-
+        this.nodes.img = this.make('div', 'input-img');
+        this.nodes.img.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 20V4H20V20H4ZM5 5H19V19H5V5ZM8.59326 9.32916H14.21L8.603 14.9362L9.3101 15.6433L14.9067 10.0467V15.5327H15.9067V8.32916H8.59326V9.32916Z" fill="#212132"/>
+</svg>`;
       this.nodes.inputHolder = this.makeInputHolder();
+        this.nodes.inputHolder.prepend(this.nodes.img);
 
 
       container.appendChild(this.nodes.inputHolder);
@@ -217,14 +222,14 @@ export default class Embed {
    */
   createPreloader() {
     const preloader = document.createElement('preloader');
-    const url = document.createElement('div');
+    // const url = document.createElement('div');
 
-    url.textContent = this.data.source;
+    // url.textContent = this.data.source;
 
-    preloader.classList.add(this.CSS.preloader);
-    url.classList.add(this.CSS.url);
+    // preloader.classList.add(this.CSS.preloader);
+    // url.classList.add(this.CSS.url);
 
-    preloader.appendChild(url);
+    // preloader.appendChild(url);
 
     return preloader;
   }

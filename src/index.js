@@ -46,7 +46,6 @@ export default class Embed {
    */
   constructor({data, api}) {
 
-    console.log(data, 'ссылка тут');
     this.api = api;
     this._data = {};
     this.element = null;
@@ -80,8 +79,6 @@ export default class Embed {
     if (!(data instanceof Object)) {
       throw Error('Embed Tool data should be object');
     }
-
-    console.log(data);
 
     const {service, source, embed, width, height, caption = ''} = data;
 
@@ -144,7 +141,6 @@ export default class Embed {
    */
   render() {
 
-    console.log('hello her');
     if (!this.data.service) {
       const container = document.createElement('div');
 
@@ -157,8 +153,6 @@ export default class Embed {
 
       return container;
     }
-
-    console.log('hello her 2');
 
 
     const {html} = Embed.services[this.data.service];
@@ -271,7 +265,6 @@ export default class Embed {
    */
   static prepare({config = {}}) {
     let {services = {}} = config;
-    console.log(config);
     let entries = Object.entries(SERVICES);
 
     const enabledServices = Object
@@ -401,7 +394,6 @@ export default class Embed {
     this.nodes.input.addEventListener('paste', (event) => {
       let url;
       if (event.type === 'paste') {
-        console.log(event.clipboardData);
         url = (event.clipboardData || window.clipboardData).getData('text');
       }
 
@@ -409,13 +401,10 @@ export default class Embed {
     });
 
     this.nodes.input.addEventListener('keydown', (event) => {
-      console.log('привеж муравьед');
       const [ENTER, A] = [13, 65];
       const cmdPressed = event.ctrlKey || event.metaKey;
-  console.log(event.keyCode);
       switch (event.keyCode) {
         case ENTER:
-          console.log('привет муравьед');
           event.preventDefault();
           event.stopPropagation();
 

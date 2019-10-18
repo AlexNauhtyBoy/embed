@@ -93,7 +93,6 @@ export default class Embed {
     };
 
     const oldView = this.element;
-
     if (oldView) {
       oldView.parentNode.replaceChild(this.render(), oldView);
     }
@@ -153,8 +152,11 @@ export default class Embed {
 
 
       container.appendChild(this.nodes.inputHolder);
+        const input = this.make('input',  ['embed-tool__input']);
+        container.appendChild(input);
 
-      this.element = container;
+
+        this.element = container;
 
       return container;
     }

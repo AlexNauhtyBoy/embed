@@ -152,8 +152,8 @@ export default class Embed {
 
 
       container.appendChild(this.nodes.inputHolder);
-        const input = this.make('input',  ['embed-tool__input']);
-        container.appendChild(input);
+        // const input = this.make('input',  ['embed-tool__input']);
+        // container.appendChild(input);
 
 
         this.element = container;
@@ -169,13 +169,11 @@ export default class Embed {
     const preloader = this.createPreloader();
 
     container.classList.add(this.CSS.baseClass, this.CSS.container, this.CSS.containerLoading);
-    caption.classList.add(this.CSS.input, this.CSS.caption);
+    caption.classList.add(this.CSS.caption);
 
     container.appendChild(preloader);
 
     caption.contentEditable = true;
-    caption.dataset.placeholder = 'Enter a caption';
-    caption.innerHTML = this.data.caption || '';
 
     template.innerHTML = html;
     template.content.firstChild.setAttribute('src', this.data.embed);
